@@ -26,10 +26,8 @@ yarn-error.log*
 
 # local env files
 .env*.local
+firebaseAdminCredentials.json
 
 # vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
