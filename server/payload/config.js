@@ -8,8 +8,7 @@ module.exports = {
 	collections: [User, Event],
 	serverURL: 'http://localhost:3000/payload',
 	secret: 'esDA86h7AvAzcX',
-	mongoURL:
-		'mongodb+srv://junejanean:HhNPEE4lfafD7dIU@cluster0.k0vcqym.mongodb.net/test',
+	mongoURL: process.env.MONGO_DB_PAYLOAD,
 	// admin: {
 	// 	user: 'junejanean@gmail.com',
 	// 	pass: 'miraelp',
