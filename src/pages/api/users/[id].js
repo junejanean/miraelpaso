@@ -1,6 +1,6 @@
 // import { db } from '../../../utils/firebase';
 import { db } from '../../../utils/firebaseAdmin';
-import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+// import { doc, getDoc, updateDoc, deleteDoc } from 'firebase/firestore';
 
 export default async function handler(req, res) {
 	const {
@@ -8,24 +8,21 @@ export default async function handler(req, res) {
 		method,
 	} = req;
 
-	console.log('[[[id]]]', id);
-	const userDocRef = db.collection('users').doc(id);
+	const userDocRef = db.doc(`users/${id}`);
 
 	if (method === 'GET') {
 		try {
-			// console.log('DB____________________', id);
+			console.log('DB____________________', id);
 			// const userDocRef = db.collection('users').doc(id);
 			const userDocSnap = await userDocRef.get();
 
-			console.log('[[[USER GET]]]', userDocSnap);
-
-			if (userDocSnap.exists()) {
+			if (userDocSnap.exists) {
 				console.log('User data:', userDocSnap.data());
 			} else {
 				console.log('User not found!');
 			}
 
-			if (!userDocSnap.exists()) {
+			if (!userDocSnap.exists) {
 				res.status(404).json({ error: 'User not found.' });
 			} else {
 				console.log('Document data:', userDocSnap.data());
@@ -33,7 +30,10 @@ export default async function handler(req, res) {
 			}
 		} catch (error) {
 			console.error('*********Error fetching user:*********', error);
-			res.status(500).json({ error: 'FAILING!! Failed to fetch user.' });
+			res.status(500).json({
+				error: 'FAILING!! Failed to fetch user.',
+				message: error.message,
+			});
 		}
 	} else if (method === 'PATCH') {
 		const { events } = req.body; // get events from the request body
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
 	} else if (method === 'DELETE') {
 		try {
 			// const userDocRef = db.collection('users').doc(id);
-			await deleteDoc(userDocRef);
+			await userDocRef.delete();
 
 			res.status(200).json({ id });
 		} catch (error) {

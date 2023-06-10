@@ -23,10 +23,10 @@ const CreateEventPage = () => {
 
 					console.log('userData::::::::::', userData);
 
-					if (userData.role !== 'business_owner') {
+					if (userData.data.role !== 'business_owner') {
 						router.push('/');
 					} else {
-						updateUser(userData);
+						updateUser(userData.data);
 					}
 				} catch (error) {
 					console.error('Error fetching user data:', error);

@@ -19,9 +19,9 @@ const Home = () => {
 					const response = axios.get(`/api/users/${user.uid}`).then((res) => {
 						console.log('RES', res);
 					});
-					const userData = response.data.doc;
-					setUser(user);
-					// setIsBusinessOwner(userData.isBusinessOwner && userData.isVerified);
+					const userData = response.data.data;
+					setUser(userData);
+					setIsBusinessOwner(userData.isBusinessOwner && userData.isVerified);
 				} catch (error) {
 					console.error('Error fetching user data:', error);
 				}

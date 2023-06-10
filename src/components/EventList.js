@@ -21,12 +21,12 @@ const EventList = () => {
 
 	const isEventLiked = (event) => {
 		if (!user || !event.likes) return false;
-		return event.likes.includes(user.data.uid);
+		return event.likes.includes(user.uid);
 	};
 
 	const handleLikeClick = async (event) => {
 		const eventId = event.id;
-		const userId = user.data.uid;
+		const userId = user.uid;
 
 		if (!user) {
 			setShowModal(true);
@@ -36,17 +36,15 @@ const EventList = () => {
 
 			// If the user has already liked the event, unlike it
 			if (isLiked) {
-				updatedLikes = event.likes.filter((uid) => uid !== user.data.uid);
+				updatedLikes = event.likes.filter((uid) => uid !== user.uid);
 				// Also remove the event from the user's likes
-				user.data.likes = user.data.likes.filter(
-					(eventId) => eventId !== event.id
-				);
+				user.likes = user.likes.filter((eventId) => eventId !== event.id);
 			} else {
 				console.log('[[[user]]]', user);
 				// Otherwise, add the user's uid to the likes
-				updatedLikes = [...event.likes, user.data.uid];
+				updatedLikes = [...event.likes, user.uid];
 				// Also add the event to the user's likes
-				user.data.likes.push(event.id);
+				user.likes.push(event.id);
 			}
 
 			// Send a PATCH request to update the likes
@@ -58,12 +56,10 @@ const EventList = () => {
 				console.log(`Sending PATCH request with eventId: ${event.id}`);
 
 				console.log(`Sending PATCH request with userId: ${userId}`);
-				console.log(
-					`Sending PATCH request with user likes: ${user.data.likes}`
-				);
+				console.log(`Sending PATCH request with user likes: ${user.likes}`);
 
 				// Update the likes array in the user document
-				await axios.patch(`/api/users/${userId}`, { events: user.data.likes });
+				await axios.patch(`/api/users/${userId}`, { events: user.likes });
 				// Also update the user
 				updateUser(user);
 				// Fetch events again to refresh the likes

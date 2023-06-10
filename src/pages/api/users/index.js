@@ -30,9 +30,9 @@ export default async function handler(req, res) {
 				email,
 				role,
 			});
-
-			console.log('POST request successful', { id: newUser.id, ...req.body });
-			res.status(201).json({ id: newUser.id, ...req.body });
+			const id = newUser.id;
+			console.log('POST request successful', { id, ...req.body });
+			res.status(201).json({ id, ...req.body });
 		} catch (error) {
 			console.log('POST request failed', error);
 			res.status(500).json({ error: 'Failed to create user.' });

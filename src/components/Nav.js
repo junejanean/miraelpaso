@@ -30,16 +30,20 @@ const Nav = () => {
 
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged(async (currentUser) => {
+			console.log('Current User: ', currentUser); // Check the value of currentUser
 			if (currentUser) {
-				// Fetch the user data from Firestore
-				const res = await fetch(`/api/users/${currentUser.uid}`);
-				if (res.ok) {
-					const userData = await res.json();
-					// Update your context with the user data from Firestore
-					updateUser(userData);
-				} else {
-					console.error('Failed to fetch user data from Firestore');
-					updateUser(null);
+				try {
+					const res = await fetch(`/api/users/${currentUser.uid}`);
+					if (res.ok) {
+						const userData = await res.json();
+						console.log('User Data: ', userData); // Check the user data from Firestore
+						updateUser(userData.data);
+					} else {
+						console.error('Failed to fetch user data from Firestore');
+						updateUser(null);
+					}
+				} catch (error) {
+					console.error('Error fetching user data:', error);
 				}
 			} else {
 				updateUser(null);
@@ -50,6 +54,10 @@ const Nav = () => {
 			unsubscribe();
 		};
 	}, []);
+
+	useEffect(() => {
+		console.log('User context changed: ', user);
+	}, [user]);
 
 	return (
 		<nav className='flex items-center justify-between flex-wrap bg-indigo-500 p-6'>
@@ -132,9 +140,7 @@ const Nav = () => {
 							>
 								Logout
 							</button>
-							<div>
-								<p>{user.uid}</p>
-							</div>
+							<div>{user && <p>{user.uid}</p>}</div>
 						</>
 					) : (
 						<>

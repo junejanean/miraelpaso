@@ -1,7 +1,6 @@
 import '../styles/globals.css';
 import React, { useEffect, useState, useContext } from 'react';
 import { auth } from '../utils/firebase';
-import Login from '../components/Login';
 import { UserProvider, UserContext } from '@/utils/userContext';
 
 function MyApp({ Component, pageProps }) {
@@ -22,7 +21,7 @@ function MyAppContent({ Component, pageProps }) {
 				const res = await fetch(`/api/users/${user.uid}`);
 				if (res.ok) {
 					const userData = await res.json();
-					updateUser(userData);
+					updateUser(userData.data);
 				} else {
 					console.error('Failed to fetch user data from Firestore');
 					updateUser(null);
