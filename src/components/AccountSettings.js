@@ -12,8 +12,8 @@ const AccountSettings = () => {
 
 	useEffect(() => {
 		if (user) {
-			setDisplayName(user.displayName || '');
-			setEmail(user.email || '');
+			setDisplayName(user.data.displayName || '');
+			setEmail(user.data.email || '');
 		} else {
 			router.push('/login');
 		}
@@ -27,10 +27,13 @@ const AccountSettings = () => {
 		try {
 			const updatedUser = {
 				...user,
-				displayName,
-				email,
+				data: {
+					...user.data,
+					displayName,
+					email,
+				},
 			};
-			await axios.put(`/api/users/${user.uid}`, updatedUser);
+			await axios.patch(`/api/users/${user.uid}`, updatedUser);
 			updateUser(updatedUser);
 			alert('Settings saved!');
 		} catch (error) {

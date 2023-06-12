@@ -140,7 +140,7 @@ const Nav = () => {
 							>
 								Logout
 							</button>
-							<div>{user && <p>{user.uid}</p>}</div>
+							<div>Hi,{user && <p>{user.data.displayName}!</p>}</div>
 						</>
 					) : (
 						<>

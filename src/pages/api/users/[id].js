@@ -36,16 +36,23 @@ export default async function handler(req, res) {
 			});
 		}
 	} else if (method === 'PATCH') {
-		const { events } = req.body; // get events from the request body
+		// const { events } = req.body; // get events from the request body
 
 		try {
-			// const userDocRef = db.collection('users').doc(id);
-			await userDocRef.update({ likes: events }); // update events field
+			// await userDocRef.update({ likes: events }); // update events field
 
-			res.status(200).json({ id, events }); // send updated events back in the response
+			// Update user fields
+			await userDocRef.update(req.body);
+
+			// Get updated user data
+			const updatedUserDocSnap = await userDocRef.get();
+			const updatedUserData = updatedUserDocSnap.data();
+
+			// Send updated user data back in the response
+			res.status(200).json({ id, ...updatedUserData });
 		} catch (error) {
 			console.error('ERROR---------', error);
-			res.status(500).json({ error: 'Failed to update user events.', error });
+			res.status(500).json({ error: 'Failed to update user.', error });
 		}
 	} else if (method === 'DELETE') {
 		try {
