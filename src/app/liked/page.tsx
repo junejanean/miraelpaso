@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Calendar, MapPin, Heart } from "lucide-react";
-import { format } from "date-fns";
+import { Search, Heart } from "lucide-react";
+import EventCard from "@/components/EventCard";
 
 // Mock liked events - in a real app, these would be fetched from an API
 const MOCK_LIKED_EVENTS = [
@@ -34,7 +34,24 @@ export default function LikedEventsPage() {
   const router = useRouter();
   
   const [likedEvents, setLikedEvents] = useState(MOCK_LIKED_EVENTS);
+  const [filteredEvents, setFilteredEvents] = useState(MOCK_LIKED_EVENTS);
+  const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+
+  // Filter events based on search query
+  useEffect(() => {
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      const filtered = likedEvents.filter(event => 
+        event.title.toLowerCase().includes(query) || 
+        event.description.toLowerCase().includes(query) ||
+        event.location.toLowerCase().includes(query)
+      );
+      setFilteredEvents(filtered);
+    } else {
+      setFilteredEvents(likedEvents);
+    }
+  }, [likedEvents, searchQuery]);
 
   useEffect(() => {
     // Redirect if not authenticated
@@ -49,6 +66,7 @@ export default function LikedEventsPage() {
     //     const response = await fetch("/api/user/liked-events");
     //     const data = await response.json();
     //     setLikedEvents(data);
+    //     setFilteredEvents(data);
     //   } catch (error) {
     //     console.error("Error fetching liked events:", error);
     //   } finally {
@@ -73,84 +91,79 @@ export default function LikedEventsPage() {
   if (status === "loading" || isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-mira-orange"></div>
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Your Liked Events</h1>
-        
+    <div className="min-h-screen bg-white">
+      {/* Header with search */}
+      <header className="bg-mira-beige">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex flex-col gap-4">
+            {/* Search bar */}
+            <div className="relative w-full">
+              <div className="flex items-center border-b border-black">
+                <div className="p-1 bg-black text-white rounded-full mr-2">
+                  <Search className="h-3 w-3" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="WHAT'S HAPPENING IN EL PASO"
+                  className="w-full p-2 bg-transparent border-none outline-none font-source-code uppercase text-black text-xs placeholder-black"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+            </div>
+            
+            <h1 className="text-2xl font-black font-source-code uppercase">LIKED EVENTS</h1>
+          </div>
+        </div>
+      </header>
+
+      {/* Event listings */}
+      <main className="w-full">
         {likedEvents.length === 0 ? (
-          <div className="bg-white p-8 rounded-lg shadow-sm border text-center">
+          <div className="text-center py-12">
             <Heart className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold mb-2">No liked events yet</h2>
-            <p className="text-gray-500 mb-6">
+            <h2 className="text-xl font-semibold font-halogen mb-2">NO LIKED EVENTS YET</h2>
+            <p className="font-source-code mb-6">
               When you find events you're interested in, click the heart icon to save them here.
             </p>
             <Link
               href="/events"
-              className="inline-block bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/90"
+              className="inline-block bg-mira-orange text-white px-4 py-2 rounded-full font-source-code hover:bg-mira-orange/90 transition-colors duration-300"
             >
-              Browse Events
+              BROWSE EVENTS
             </Link>
           </div>
+        ) : filteredEvents.length === 0 ? (
+          <div className="text-center py-12">
+            <h2 className="text-xl font-semibold font-halogen mb-2">NO MATCHING EVENTS FOUND</h2>
+            <p className="font-source-code mb-6">
+              Try adjusting your search query
+            </p>
+          </div>
         ) : (
-          <div className="space-y-6">
-            {likedEvents.map(event => (
-              <div key={event.id} className="bg-white rounded-lg shadow-sm border overflow-hidden">
-                <div className="md:flex">
-                  <div className="md:w-1/3 h-48 md:h-auto relative">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-                    <div className="absolute bottom-4 left-4 z-20">
-                      <span className="bg-primary text-primary-foreground text-xs font-semibold px-2 py-1 rounded">
-                        {event.category}
-                      </span>
-                    </div>
-                    <div className="h-full w-full relative">
-                      <div className="absolute inset-0 bg-gray-200 animate-pulse" />
-                    </div>
-                  </div>
-                  
-                  <div className="p-6 md:w-2/3">
-                    <div className="flex justify-between items-start">
-                      <h2 className="text-xl font-semibold mb-2">{event.title}</h2>
-                      <button
-                        onClick={() => handleUnlike(event.id)}
-                        className="text-red-500 hover:text-red-600"
-                        aria-label="Unlike event"
-                      >
-                        <Heart className="h-5 w-5 fill-current" />
-                      </button>
-                    </div>
-                    
-                    <p className="text-gray-600 mb-4 line-clamp-2">{event.description}</p>
-                    
-                    <div className="flex items-center text-sm text-gray-500 mb-3">
-                      <Calendar className="h-4 w-4 mr-2" />
-                      <span>{format(event.date, 'MMMM dd, yyyy')}</span>
-                    </div>
-                    
-                    <div className="flex items-center text-sm text-gray-500 mb-4">
-                      <MapPin className="h-4 w-4 mr-2" />
-                      <span>{event.location}</span>
-                    </div>
-                    
-                    <Link
-                      href={`/events/${event.id}`}
-                      className="text-primary hover:underline font-medium"
-                    >
-                      View Details
-                    </Link>
-                  </div>
-                </div>
-              </div>
+          <div className="flex flex-col">
+            {filteredEvents.map((event, index) => (
+              <EventCard
+                key={event.id}
+                id={event.id}
+                title={event.title}
+                date={new Date(event.date)}
+                location={event.location}
+                likes={99} // Mock likes count
+                isLiked={true}
+                onLikeToggle={(id) => handleUnlike(id)}
+                index={index}
+              />
             ))}
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }

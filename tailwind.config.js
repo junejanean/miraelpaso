@@ -1,7 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     container: {
@@ -10,6 +12,13 @@ module.exports = {
       screens: {
         "2xl": "1400px",
       },
+    },
+    fontFamily: {
+      sans: ['var(--font-body)', 'Source Code Pro', 'monospace'],
+      mono: ['Source Code Pro', 'monospace'],
+      heading: ['var(--font-heading)', 'Halogen', 'Roboto Mono', 'monospace'],
+      'source-code': ['Source Code Pro', 'monospace'],
+      halogen: ['Halogen', 'Roboto Mono', 'monospace'],
     },
     extend: {
       colors: {
@@ -45,6 +54,31 @@ module.exports = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        mira: {
+          black: '#000000',
+          beige: {
+            DEFAULT: '#F2DBBF',
+            light: '#FFFBF2',
+          },
+          green: {
+            DEFAULT: '#7DD98C',
+            light: '#A9E6B3',
+            lighter: '#D6F3DC',
+            lightest: '#EBF9EF',
+          },
+          purple: {
+            DEFAULT: '#B0A1FF',
+            light: '#C7BDFF',
+            lighter: '#DED8FF',
+            lightest: '#EEEBFF',
+          },
+          orange: {
+            DEFAULT: '#FF5714',
+            light: '#FF8557',
+            lighter: '#FFB39A',
+            lightest: '#FFE1D6',
+          },
         },
       },
       borderRadius: {

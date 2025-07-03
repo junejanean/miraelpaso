@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/providers/auth-provider";
 import Navbar from "@/components/navbar";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
+// Fonts are now managed through globals.css and font-loader.tsx
 
 export const metadata: Metadata = {
   title: "Mira El Paso - Discover Local Events",
@@ -24,7 +20,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased`}>
+
+      <body className="antialiased">
         <AuthProvider>
           <ThemeProvider
             attribute="class"

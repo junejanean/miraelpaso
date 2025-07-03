@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { User, Heart, Calendar } from "lucide-react";
+import { User, Heart, Calendar, Mail, Building } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import ProfilePopover from "@/components/auth/ProfilePopover";
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
@@ -74,20 +75,18 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">Your Profile</h1>
-
+    <div className="min-h-screen bg-mira-beige">
+      <ProfilePopover title="YOUR PROFILE">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Profile Information */}
           <div className="md:col-span-2">
-            <div className="bg-white p-6 rounded-lg shadow-sm border">
+            <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-semibold">Personal Information</h2>
+                <h2 className="text-xl font-semibold font-halogen uppercase">Personal Information</h2>
                 {!isEditing && (
                   <button
                     onClick={() => setIsEditing(true)}
-                    className="text-sm text-primary hover:underline"
+                    className="text-sm font-source-code uppercase text-black hover:underline"
                   >
                     Edit Profile
                   </button>
@@ -98,7 +97,7 @@ export default function ProfilePage() {
                 <form onSubmit={handleUpdateProfile}>
                   <div className="space-y-4">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="name" className="block text-sm font-medium text-black mb-1">
                         Name
                       </label>
                       <input
@@ -111,7 +110,7 @@ export default function ProfilePage() {
                       />
                     </div>
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="email" className="block text-sm font-medium text-black mb-1">
                         Email
                       </label>
                       <input
@@ -141,7 +140,7 @@ export default function ProfilePage() {
                             setEmail(session.user.email || "");
                           }
                         }}
-                        className="border border-gray-300 px-4 py-2 rounded-md hover:bg-gray-50"
+                        className="border border-black px-4 py-2 rounded-md hover:bg-gray-50"
                       >
                         Cancel
                       </button>
@@ -151,16 +150,16 @@ export default function ProfilePage() {
               ) : (
                 <div className="space-y-4">
                   <div className="flex items-center">
-                    <User className="h-5 w-5 text-gray-400 mr-3" />
+                    <User className="h-5 w-5 text-black mr-3" />
                     <div>
-                      <p className="text-sm text-gray-500">Name</p>
+                      <p className="text-sm text-black">Name</p>
                       <p className="font-medium">{name}</p>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-400 mr-3"
+                      className="h-5 w-5 text-black mr-3"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -173,14 +172,14 @@ export default function ProfilePage() {
                       />
                     </svg>
                     <div>
-                      <p className="text-sm text-gray-500">Email</p>
+                      <p className="text-sm text-black">Email</p>
                       <p className="font-medium">{email}</p>
                     </div>
                   </div>
                   <div className="flex items-center">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 text-gray-400 mr-3"
+                      className="h-5 w-5 text-black mr-3"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -193,7 +192,7 @@ export default function ProfilePage() {
                       />
                     </svg>
                     <div>
-                      <p className="text-sm text-gray-500">Account Type</p>
+                      <p className="text-sm text-black">Account Type</p>
                       <p className="font-medium">
                         {session?.user?.isBusinessOwner
                           ? "Business Owner"
@@ -208,20 +207,20 @@ export default function ProfilePage() {
 
           {/* Stats */}
           <div>
-            <div className="bg-white p-6 rounded-lg shadow-sm border mb-6">
+            <div className="p-6 border-l border-black mb-6">
               <h2 className="text-xl font-semibold mb-4">Your Activity</h2>
               <div className="space-y-4">
                 <div className="flex items-center">
                   <Heart className="h-5 w-5 text-red-500 mr-3" />
                   <div>
-                    <p className="text-sm text-gray-500">Liked Events</p>
+                    <p className="text-sm text-black">Liked Events</p>
                     <p className="font-medium">{likedEvents.length}</p>
                   </div>
                 </div>
                 <div className="flex items-center">
                   <Calendar className="h-5 w-5 text-blue-500 mr-3" />
                   <div>
-                    <p className="text-sm text-gray-500">Upcoming Events</p>
+                    <p className="text-sm text-black">Upcoming Events</p>
                     <p className="font-medium">{upcomingEvents.length}</p>
                   </div>
                 </div>
@@ -234,16 +233,16 @@ export default function ProfilePage() {
         <div className="mt-8">
           <h2 className="text-xl font-semibold mb-4">Liked Events</h2>
           {likedEvents.length === 0 ? (
-            <p className="text-gray-500">You haven't liked any events yet.</p>
+            <p className="text-black">You haven't liked any events yet.</p>
           ) : (
-            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+            <div className="border-l border-black pl-4 overflow-hidden">
               <ul className="divide-y divide-gray-200">
                 {likedEvents.map((event) => (
                   <li key={event.id} className="p-4 hover:bg-gray-50">
                     <div className="flex justify-between items-center">
                       <div>
                         <h3 className="font-medium">{event.title}</h3>
-                        <p className="text-sm text-gray-500">{event.date}</p>
+                        <p className="text-sm text-black">{event.date}</p>
                       </div>
                       <button className="text-sm text-primary hover:underline">
                         View Event
@@ -260,16 +259,16 @@ export default function ProfilePage() {
         <div className="mt-8">
           <h2 className="text-xl font-semibold mb-4">Your Upcoming Events</h2>
           {upcomingEvents.length === 0 ? (
-            <p className="text-gray-500">You don't have any upcoming events.</p>
+            <p className="text-black">You don't have any upcoming events.</p>
           ) : (
-            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+            <div className="border-l border-black pl-4 overflow-hidden">
               <ul className="divide-y divide-gray-200">
                 {upcomingEvents.map((event) => (
                   <li key={event.id} className="p-4 hover:bg-gray-50">
                     <div className="flex justify-between items-center">
                       <div>
                         <h3 className="font-medium">{event.title}</h3>
-                        <p className="text-sm text-gray-500">{event.date}</p>
+                        <p className="text-sm text-black">{event.date}</p>
                       </div>
                       <button className="text-sm text-primary hover:underline">
                         View Event
@@ -281,7 +280,7 @@ export default function ProfilePage() {
             </div>
           )}
         </div>
-      </div>
+      </ProfilePopover>
     </div>
   );
 }

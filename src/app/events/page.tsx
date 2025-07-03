@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Calendar, MapPin, Filter } from "lucide-react";
-import { format } from "date-fns";
+import { Filter, Search } from "lucide-react";
+import EventCard from "@/components/EventCard";
+import EventFilters from "@/components/filters/EventFilters";
+import FilterTags from "@/components/filters/FilterTags";
 
 // This would be replaced with actual data fetching in a production app
 const MOCK_EVENTS = [
@@ -81,6 +83,7 @@ export default function EventsPage() {
   const [selectedDate, setSelectedDate] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
+  const [filtersActive, setFiltersActive] = useState(false);
 
   // Filter events based on selected criteria
   useEffect(() => {
@@ -117,108 +120,87 @@ export default function EventsPage() {
       setSelectedCategory(categoryParam);
     }
   }, [categoryParam]);
+  
+  // Check if there are any active filters
+  useEffect(() => {
+    const hasCategory = searchParams.has("category") && searchParams.get("category") !== "";
+    const hasDays = searchParams.has("days") && searchParams.get("days") !== "";
+    const hasPriceRange = searchParams.has("priceRange") && searchParams.get("priceRange") !== "30";
+    const hasIndoor = searchParams.has("indoor") && searchParams.get("indoor") === "true";
+    const hasOutdoor = searchParams.has("outdoor") && searchParams.get("outdoor") === "true";
+    const hasFamilyFriendly = searchParams.has("familyFriendly") && searchParams.get("familyFriendly") === "true";
+    
+    const hasActiveFilters = hasCategory || hasDays || hasPriceRange || hasIndoor || hasOutdoor || hasFamilyFriendly;
+    
+    setFiltersActive(hasActiveFilters);
+  }, [searchParams]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-white">
       {/* Header with search */}
-      <header className="bg-white border-b">
+      <header className="bg-mira-beige">
         <div className="container mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold mb-4">Events in El Paso</h1>
-          
-          <div className="flex flex-col md:flex-row md:items-center gap-4">
-            <div className="relative flex-grow">
-              <input
-                type="text"
-                placeholder="Search events..."
-                className="w-full p-2 pl-10 border rounded-md"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <div className="absolute left-3 top-1/2 transform -translate-y-1/2">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-            </div>
-            
-            <button 
-              className="md:hidden flex items-center gap-2 bg-gray-100 p-2 rounded-md"
-              onClick={() => setShowFilters(!showFilters)}
-            >
-              <Filter className="h-5 w-5" />
-              <span>Filters</span>
-            </button>
-            
-            <div className={`md:flex gap-4 ${showFilters ? 'block' : 'hidden'}`}>
-              <div className="mt-4 md:mt-0">
-                <select
-                  className="w-full md:w-auto p-2 border rounded-md"
-                  value={selectedCategory}
-                  onChange={(e) => setSelectedCategory(e.target.value)}
-                >
-                  <option value="">All Categories</option>
-                  {MOCK_CATEGORIES.map(category => (
-                    <option key={category.id} value={category.name}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              
-              <div className="mt-4 md:mt-0">
+          <div className="flex flex-col gap-4">
+            {/* Search bar */}
+            <div className="relative w-full">
+              <div className="flex items-center border-b border-black">
+                <div className="p-1 bg-black text-white rounded-full mr-2">
+                  <Search className="h-3 w-3" />
+                </div>
                 <input
-                  type="date"
-                  className="w-full md:w-auto p-2 border rounded-md"
-                  value={selectedDate}
-                  onChange={(e) => setSelectedDate(e.target.value)}
+                  type="text"
+                  placeholder="WHAT'S HAPPENING IN EL PASO"
+                  className="w-full p-2 bg-transparent border-none outline-none font-source-code uppercase text-black text-xs placeholder-black"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
             </div>
+            
+            <h1 className="text-2xl font-black font-source-code uppercase">EVENTS</h1>
+            
+            {/* Filters button with tags */}
+            <div className="flex items-center">
+              <button 
+                className={`flex items-center gap-2 px-4 py-2 rounded-full ${showFilters || filtersActive ? 'bg-mira-black text-white' : 'bg-mira-beige text-mira-black'}`}
+                onClick={() => setShowFilters(!showFilters)}
+              >
+                <Filter className="h-4 w-4 mr-1" />
+                <span className="font-source-code text-sm">FILTERS</span>
+              </button>
+              {!showFilters && <FilterTags inline />}
+            </div>
+            
+            {/* Event Filters Component */}
+            <EventFilters 
+              isOpen={showFilters} 
+              onClose={() => setShowFilters(false)} 
+            />
           </div>
         </div>
       </header>
 
       {/* Event listings */}
-      <main className="container mx-auto px-4 py-8">
+      <main className="w-full">
         {filteredEvents.length === 0 ? (
           <div className="text-center py-12">
-            <h2 className="text-xl font-semibold mb-2">No events found</h2>
-            <p className="text-gray-500">Try adjusting your filters or search query</p>
+            <h2 className="text-xl font-semibold font-halogen mb-2">NO EVENTS FOUND</h2>
+            <p className="font-source-code">Try adjusting your filters or search query</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredEvents.map(event => (
-              <div key={event.id} className="border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow bg-white">
-                <div className="relative h-48 w-full">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-                  <div className="absolute bottom-4 left-4 z-20">
-                    <span className="bg-primary text-primary-foreground text-xs font-semibold px-2 py-1 rounded">
-                      {event.category}
-                    </span>
-                  </div>
-                  <div className="h-full w-full relative">
-                    <div className="absolute inset-0 bg-gray-200 animate-pulse" />
-                  </div>
-                </div>
-                <div className="p-5">
-                  <h3 className="font-bold text-lg mb-2">{event.title}</h3>
-                  <p className="text-muted-foreground text-sm mb-4 line-clamp-2">{event.description}</p>
-                  <div className="flex items-center text-sm text-muted-foreground mb-3">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    <span>{format(event.date, 'MMMM dd, yyyy')}</span>
-                  </div>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <MapPin className="h-4 w-4 mr-2" />
-                    <span>{event.location}</span>
-                  </div>
-                  <div className="mt-4 flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">{event.likes} likes</span>
-                    <button className="text-sm font-medium text-primary hover:underline">
-                      View Details
-                    </button>
-                  </div>
-                </div>
-              </div>
+          <div className="flex flex-col">
+            {filteredEvents.map((event, index) => (
+              <EventCard
+                key={event.id}
+                id={event.id}
+                title={event.title}
+                date={event.date}
+                location={event.location}
+                likes={event.likes}
+                isLiked={false}
+                onLikeToggle={(id) => console.log(`Toggle like for event ${id}`)}
+                index={index}
+              />
             ))}
           </div>
         )}

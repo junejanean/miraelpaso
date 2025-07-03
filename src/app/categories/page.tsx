@@ -6,14 +6,14 @@ import { Music, Utensils, Paintbrush, Film, ShoppingBag, GraduationCap, Heart, T
 
 // Mock categories with icons
 const CATEGORIES = [
-  { id: "1", name: "Music", icon: Music, color: "bg-blue-100 text-blue-600", count: 12 },
-  { id: "2", name: "Food", icon: Utensils, color: "bg-orange-100 text-orange-600", count: 8 },
-  { id: "3", name: "Art", icon: Paintbrush, color: "bg-purple-100 text-purple-600", count: 5 },
-  { id: "4", name: "Sports", icon: Trophy, color: "bg-green-100 text-green-600", count: 7 },
-  { id: "5", name: "Film", icon: Film, color: "bg-red-100 text-red-600", count: 3 },
-  { id: "6", name: "Shopping", icon: ShoppingBag, color: "bg-pink-100 text-pink-600", count: 4 },
-  { id: "7", name: "Education", icon: GraduationCap, color: "bg-yellow-100 text-yellow-600", count: 6 },
-  { id: "8", name: "Charity", icon: Heart, color: "bg-emerald-100 text-emerald-600", count: 2 }
+  { id: "1", name: "Music", icon: Music, color: "bg-mira-beige-light text-mira-orange", count: 12 },
+  { id: "2", name: "Food", icon: Utensils, color: "bg-mira-beige-light text-mira-orange", count: 8 },
+  { id: "3", name: "Art", icon: Paintbrush, color: "bg-mira-beige-light text-mira-purple", count: 5 },
+  { id: "4", name: "Sports", icon: Trophy, color: "bg-mira-beige-light text-mira-green", count: 7 },
+  { id: "5", name: "Film", icon: Film, color: "bg-mira-beige-light text-mira-orange", count: 3 },
+  { id: "6", name: "Shopping", icon: ShoppingBag, color: "bg-mira-beige-light text-mira-purple", count: 4 },
+  { id: "7", name: "Education", icon: GraduationCap, color: "bg-mira-beige-light text-mira-green", count: 6 },
+  { id: "8", name: "Charity", icon: Heart, color: "bg-mira-beige-light text-mira-orange", count: 2 }
 ];
 
 export default function CategoriesPage() {
@@ -69,7 +69,7 @@ export default function CategoriesPage() {
                         <Icon className="h-6 w-6" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold group-hover:text-primary transition-colors">
+                        <h3 className="text-lg font-semibold group-hover:text-mira-orange transition-colors">
                           {category.name}
                         </h3>
                         <p className="text-sm text-gray-500">

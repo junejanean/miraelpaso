@@ -1,17 +1,21 @@
 "use client";
 
 import Popover from "@/components/ui/popover";
+import Link from "next/link";
 
-export default function AboutPage() {
+export default function ContactPage() {
   return (
-    <Popover title="ABOUT" backgroundColor="bg-mira-beige-light">
+    <Popover title="CONTACT" backgroundColor="bg-mira-beige-light">
       <div className="space-y-8">
         <h2 className="font-halogen text-3xl font-bold leading-tight">
-          We are El Paso folks who want to see this city thrive.
+          Got a question, comment or just want to say hi?
         </h2>
         
         <p className="font-source-code text-sm">
-          We created a platform for all of us to share and connect about the city's events.
+          Please send us an email to{" "}
+          <Link href="mailto:miraelpaso@gmail.com" className="underline">
+            miraelpaso@gmail.com
+          </Link>
         </p>
         
         {/* Glasses Icon at the bottom */}
