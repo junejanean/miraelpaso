@@ -4,6 +4,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/providers/auth-provider";
 import Navbar from "@/components/navbar";
+import LoadingAnimation from "@/components/LoadingAnimation";
+import ReplayLoadingButton from "@/components/ReplayLoadingButton";
 
 // Fonts are now managed through globals.css and font-loader.tsx
 
@@ -29,9 +31,11 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <LoadingAnimation />
             <Navbar />
             {children}
             <Toaster />
+            <ReplayLoadingButton />
           </ThemeProvider>
         </AuthProvider>
       </body>

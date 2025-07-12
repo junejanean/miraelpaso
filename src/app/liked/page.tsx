@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Search, Heart } from "lucide-react";
+import { Heart } from "lucide-react";
+import { SearchBar } from "@/components/ui/search-bar";
 import EventCard from "@/components/EventCard";
 
 // Mock liked events - in a real app, these would be fetched from an API
@@ -103,20 +104,11 @@ export default function LikedEventsPage() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col gap-4">
             {/* Search bar */}
-            <div className="relative w-full">
-              <div className="flex items-center border-b border-black">
-                <div className="p-1 bg-black text-white rounded-full mr-2">
-                  <Search className="h-3 w-3" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="WHAT'S HAPPENING IN EL PASO"
-                  className="w-full p-2 bg-transparent border-none outline-none font-source-code uppercase text-black text-xs placeholder-black"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            </div>
+            <SearchBar
+              value={searchQuery}
+              onChange={setSearchQuery}
+              showFilter={false}
+            />
             
             <h1 className="text-2xl font-black font-source-code uppercase">LIKED EVENTS</h1>
           </div>

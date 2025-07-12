@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { Menu, X, UserCircle2, LogOut } from "lucide-react";
+import { CustomIcon } from "./ui/custom-icon";
+import { LogOut } from "lucide-react"; // Keeping LogOut from Lucide as there's no custom equivalent
 import CreateEventButton from "./CreateEventButton";
 
 // Import this to make sure Tailwind is being processed
@@ -39,8 +41,14 @@ export default function Navbar() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="text-2xl font-bold font-halogen">
-            MIRA <span className="text-lg">EL PASO</span>
+          <Link href="/" className="flex items-center">
+            {/* Logo for all screen sizes */}
+            <img 
+              src="/svgs/logo/Mira_ELP_PrimaryLogo.svg" 
+              alt="Mira El Paso" 
+              width="120" 
+              height="40" 
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -90,7 +98,7 @@ export default function Navbar() {
                   onClick={toggleProfileMenu}
                   className="flex items-center text-sm font-medium font-source-code hover:text-white px-4 py-2"
                 >
-                  <UserCircle2 className="h-5 w-5 mr-2 text-black" />
+                  <CustomIcon name="profile" size={30} className="mr-2" />
                   {session.user?.name || "ACCOUNT"}
                 </button>
                 {isProfileMenuOpen && (
@@ -121,7 +129,7 @@ export default function Navbar() {
                       className="block w-full text-left px-4 py-2 text-sm font-source-code text-gray-700 hover:bg-gray-100"
                     >
                       <div className="flex items-center">
-                        <LogOut className="h-4 w-4 mr-2" />
+                        <LogOut className="h-4 w-4 mr-2" /> {/* Keeping LogOut from Lucide */}
                         SIGN OUT
                       </div>
                     </button>
@@ -146,7 +154,7 @@ export default function Navbar() {
                 className="p-2 hover:text-white transition-colors"
                 aria-label="Profile menu"
               >
-                <UserCircle2 className="h-5 w-5 text-black" />
+                <CustomIcon name="profile" size={40} />
               </button>
             )}
             <button
@@ -154,7 +162,10 @@ export default function Navbar() {
               onClick={toggleMenu}
               aria-label="Main menu"
             >
-              {isMenuOpen ? <X className="h-5 w-5 text-black" /> : <Menu className="h-5 w-5 text-black" />}
+              {isMenuOpen ? 
+                <CustomIcon name="close" size={40} /> : 
+                <CustomIcon name="menu" size={40} />
+              }
             </button>
           </div>
         </div>
@@ -164,15 +175,20 @@ export default function Navbar() {
           <div className="fixed inset-0 z-50 md:hidden" style={{ backgroundColor: '#B0A1FF' }}>
             <div className="container mx-auto px-8 py-8">
               <div className="flex justify-between items-center mb-8">
-                <div className="font-bold text-2xl font-halogen">
-                  MIRA<br />EL PASO
+                <div>
+                  <img 
+                    src="/svgs/logo/Mira_ELP_PrimaryLogo.svg" 
+                    alt="Mira El Paso" 
+                    width="120" 
+                    height="40" 
+                  />
                 </div>
                 <button
                   className="text-black"
                   onClick={() => setIsMenuOpen(false)}
                   aria-label="Close menu"
                 >
-                  <X className="h-6 w-6" />
+                  <img src="/svgs/functional_icons/Close.svg" alt="Close" className="h-6 w-6" />
                 </button>
               </div>
               
@@ -225,15 +241,20 @@ export default function Navbar() {
           <div className="fixed inset-0 z-50 md:hidden" style={{ backgroundColor: '#B0A1FF' }}>
             <div className="container mx-auto px-8 py-8">
               <div className="flex justify-between items-center mb-8">
-                <div className="font-bold text-2xl font-halogen">
-                  MIRA<br />EL PASO
+                <div>
+                  <img 
+                    src="/svgs/logo/Mira_ELP_PrimaryLogo.svg" 
+                    alt="Mira El Paso" 
+                    width="120" 
+                    height="40" 
+                  />
                 </div>
                 <button
                   className="text-black"
                   onClick={() => setIsProfileMenuOpen(false)}
                   aria-label="Close menu"
                 >
-                  <X className="h-6 w-6" />
+                  <img src="/svgs/functional_icons/Close.svg" alt="Close" className="h-6 w-6" />
                 </button>
               </div>
               

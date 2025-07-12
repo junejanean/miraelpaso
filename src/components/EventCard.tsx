@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { format } from "date-fns";
-import { MapPin, Eye, Heart } from "lucide-react";
+import { CustomIcon } from "./ui/custom-icon";
 import EventDetailsPopover from "./EventDetailsPopover";
 
 interface EventCardProps {
@@ -64,7 +64,7 @@ export default function EventCard({
             </div>
             
             <div className="flex items-center mb-2">
-              <MapPin className="h-4 w-4 mr-2" />
+              <CustomIcon name="location" size={16} className="mr-2" />
               <span className="text-sm font-source-code">{location}</span>
             </div>
           </div>
@@ -85,14 +85,14 @@ export default function EventCard({
                 aria-label={isLiked ? "Unlike event" : "Like event"}
               >
                 {isLiked ? (
-                  <Heart className="h-5 w-5 text-mira-orange fill-mira-orange" />
+                  <CustomIcon name="heart" size={20} className="text-mira-orange" />
                 ) : (
-                  <Heart className="h-5 w-5" />
+                  <CustomIcon name="heart" size={20} />
                 )}
               </button>
               
               <div className="flex items-center">
-                <Eye className="h-5 w-5 mr-1" />
+                <CustomIcon name="eye" size={20} className="mr-1" />
                 <span className="text-xs font-source-code">{likes}</span>
               </div>
             </div>

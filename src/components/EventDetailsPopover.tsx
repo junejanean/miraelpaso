@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Calendar, Clock, MapPin, Share2, Heart, Users, ExternalLink, X } from "lucide-react";
+import { Calendar, Clock, Users, ExternalLink } from "lucide-react"; // Keeping some Lucide icons without custom equivalents
+import { CustomIcon } from "./ui/custom-icon";
 import { format } from "date-fns";
 import { useToast } from "@/components/ui/use-toast";
 import Link from "next/link";
@@ -206,7 +207,7 @@ export default function EventDetailsPopover({ eventId, isOpen, onClose }: EventD
               className="p-1 hover:text-mira-orange transition-colors"
               aria-label="Close details"
             >
-              <X className="h-6 w-6 text-black" />
+              <CustomIcon name="close" size={24} className="text-black" />
             </button>
           </div>
 
@@ -230,7 +231,7 @@ export default function EventDetailsPopover({ eventId, isOpen, onClose }: EventD
           
           {/* Location */}
           <div className="flex items-start mb-6">
-            <MapPin className="h-5 w-5 mr-2 mt-1" />
+            <CustomIcon name="location" size={20} className="mr-2 mt-1" />
             <div>
               <div className="font-source-code font-bold">{event.location}</div>
               <div className="font-source-code">{event.address}</div>
@@ -252,7 +253,7 @@ export default function EventDetailsPopover({ eventId, isOpen, onClose }: EventD
               onClick={handleShare}
               className="flex items-center font-source-code hover:bg-mira-beige transition-colors px-4 py-2 rounded-full"
             >
-              <Share2 className="h-4 w-4 mr-2" />
+              <CustomIcon name="share" size={16} className="mr-2" />
               SHARE
             </button>
             
@@ -260,7 +261,7 @@ export default function EventDetailsPopover({ eventId, isOpen, onClose }: EventD
               onClick={handleLikeToggle}
               className="flex items-center font-source-code hover:bg-mira-beige transition-colors px-4 py-2 rounded-full"
             >
-              <Heart className={`h-4 w-4 mr-2 ${isLiked ? 'fill-current text-red-500' : ''}`} />
+              <CustomIcon name="heart" size={16} className={`mr-2 ${isLiked ? 'text-red-500' : ''}`} />
               {isLiked ? 'LIKED' : 'LIKE'} ({likeCount})
             </button>
           </div>

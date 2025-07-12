@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { User, Eye, EyeOff, Mail, Building } from "lucide-react";
+import { User, Mail, Building } from "lucide-react"; // Keeping User, Mail, Building as there's no custom equivalent
+import { CustomIcon } from "@/components/ui/custom-icon";
 import AuthPopover from "@/components/auth/AuthPopover";
 import Head from "next/head";
 

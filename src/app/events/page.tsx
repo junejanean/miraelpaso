@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { Filter, Search } from "lucide-react";
+import { Filter } from "lucide-react";
+import { SearchBar } from "@/components/ui/search-bar";
 import EventCard from "@/components/EventCard";
 import EventFilters from "@/components/filters/EventFilters";
 import FilterTags from "@/components/filters/FilterTags";
@@ -141,33 +142,18 @@ export default function EventsPage() {
       <header className="bg-mira-beige">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col gap-4">
-            {/* Search bar */}
-            <div className="relative w-full">
-              <div className="flex items-center border-b border-black">
-                <div className="p-1 bg-black text-white rounded-full mr-2">
-                  <Search className="h-3 w-3" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="WHAT'S HAPPENING IN EL PASO"
-                  className="w-full p-2 bg-transparent border-none outline-none font-source-code uppercase text-black text-xs placeholder-black"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            </div>
+            {/* Search bar with filter */}
+            <SearchBar
+              value={searchQuery}
+              onChange={setSearchQuery}
+              onFilterClick={() => setShowFilters(!showFilters)}
+              filtersActive={filtersActive}
+            />
             
             <h1 className="text-2xl font-black font-source-code uppercase">EVENTS</h1>
             
-            {/* Filters button with tags */}
+            {/* Filter Tags */}
             <div className="flex items-center">
-              <button 
-                className={`flex items-center gap-2 px-4 py-2 rounded-full ${showFilters || filtersActive ? 'bg-mira-black text-white' : 'bg-mira-beige text-mira-black'}`}
-                onClick={() => setShowFilters(!showFilters)}
-              >
-                <Filter className="h-4 w-4 mr-1" />
-                <span className="font-source-code text-sm">FILTERS</span>
-              </button>
               {!showFilters && <FilterTags inline />}
             </div>
             

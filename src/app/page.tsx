@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Calendar, MapPin, Search, Filter, Heart, Eye } from "lucide-react";
+import Image from "next/image";
+import { Calendar } from "lucide-react"; // Keeping Calendar as there's no custom equivalent
+import { CustomIcon } from "@/components/ui/custom-icon";
+import { SearchBar } from "@/components/ui/search-bar";
 import CreateEventButton from "@/components/CreateEventButton";
 import EventFilters from "@/components/filters/EventFilters";
 import FilterToggle from "@/components/filters/FilterToggle";
@@ -97,29 +100,17 @@ export default function Home() {
       <header className="bg-mira-beige">
         <div className="container mx-auto px-4 py-4">
           <div className="flex flex-col gap-4">
-            {/* Search bar */}
-            <div className="relative w-full">
-              <div className="flex items-center border-b border-black">
-                <div className="p-1 bg-black text-white rounded-full mr-2">
-                  <Search className="h-3 w-3" />
-                </div>
-                <input
-                  type="text"
-                  placeholder="WHAT'S HAPPENING IN EL PASO"
-                  className="w-full p-2 bg-transparent border-none outline-none font-source-code uppercase text-black text-xs placeholder-black"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            </div>
+            {/* Search bar with filter */}
+            <SearchBar
+              value={searchQuery}
+              onChange={setSearchQuery}
+              onFilterClick={() => setIsFiltersOpen(true)}
+              filtersActive={filtersActive}
+            />
             
-            {/* Filter Toggle with Tags */}
+            {/* Filter Tags */}
             <div className="flex justify-between items-center">
               <div className="flex items-center">
-                <FilterToggle 
-                  onClick={() => setIsFiltersOpen(true)} 
-                  filtersActive={filtersActive} 
-                />
                 {!isFiltersOpen && <FilterTags inline />}
               </div>
               
@@ -263,7 +254,14 @@ export default function Home() {
       <footer className="border-t py-6 bg-white">
         <div className="container mx-auto px-4">
           <div className="mb-4 text-center">
-            <h3 className="font-bold text-lg mb-2">MIRA <span className="text-sm">EL PASO</span></h3>
+            <div className="flex justify-center mb-2">
+              <img 
+                src="/svgs/logo/Mira_ELP_PrimaryLogo.svg" 
+                alt="Mira El Paso" 
+                width="120" 
+                height="40"
+              />
+            </div>
             <p className="text-xs text-gray-600 max-w-xs mx-auto">Your guide to local events in El Paso, Texas.</p>
           </div>
           

@@ -4,7 +4,8 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { User, Eye, EyeOff } from "lucide-react";
+import { User } from "lucide-react"; // Keeping User as there's no custom equivalent
+import { CustomIcon } from "@/components/ui/custom-icon";
 import AuthPopover from "@/components/auth/AuthPopover";
 import { useEffect } from "react";
 import Head from "next/head";
@@ -109,9 +110,9 @@ export default function LoginPage() {
                 className="p-1"
               >
                 {showPassword ? (
-                  <EyeOff className="h-6 w-6 text-black stroke-2" />
+                  <CustomIcon name="notvisible" size={24} className="text-black" />
                 ) : (
-                  <Eye className="h-6 w-6 text-black stroke-2" />
+                  <CustomIcon name="eye" size={24} className="text-black" />
                 )}
               </button>
             </div>

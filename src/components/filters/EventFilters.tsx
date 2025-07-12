@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, ChevronDown, Check } from "lucide-react";
+import { Check } from "lucide-react"; // Keeping Check as there's no custom equivalent
+import { CustomIcon } from "../ui/custom-icon";
 import { useRouter, useSearchParams } from "next/navigation";
 
 // Mock categories - in a real app, these would be fetched from the database
@@ -181,7 +182,7 @@ export default function EventFilters({ isOpen, onClose }: FilterProps) {
             className="p-1 rounded-full hover:bg-gray-100"
             aria-label="Close filters"
           >
-            <X size={24} />
+            <CustomIcon name="close" size={24} />
           </button>
         </div>
         
@@ -196,7 +197,7 @@ export default function EventFilters({ isOpen, onClose }: FilterProps) {
                   className="ml-2 hover:text-mira-orange"
                   aria-label="Remove category filter"
                 >
-                  <X size={14} />
+                  <CustomIcon name="close" size={14} />
                 </button>
               </div>
             )}
@@ -209,7 +210,7 @@ export default function EventFilters({ isOpen, onClose }: FilterProps) {
                   className="ml-2 hover:text-mira-orange"
                   aria-label="Remove date filter"
                 >
-                  <X size={14} />
+                  <CustomIcon name="close" size={14} />
                 </button>
               </div>
             )}
@@ -222,7 +223,7 @@ export default function EventFilters({ isOpen, onClose }: FilterProps) {
                   className="ml-2 hover:text-mira-orange"
                   aria-label="Remove outdoor filter"
                 >
-                  <X size={14} />
+                  <CustomIcon name="close" size={14} />
                 </button>
               </div>
             )}
@@ -235,7 +236,7 @@ export default function EventFilters({ isOpen, onClose }: FilterProps) {
                   className="ml-2 hover:text-mira-orange"
                   aria-label="Remove indoor filter"
                 >
-                  <X size={14} />
+                  <CustomIcon name="close" size={14} />
                 </button>
               </div>
             )}
@@ -248,7 +249,7 @@ export default function EventFilters({ isOpen, onClose }: FilterProps) {
                   className="ml-2 hover:text-mira-orange"
                   aria-label="Remove family friendly filter"
                 >
-                  <X size={14} />
+                  <CustomIcon name="close" size={14} />
                 </button>
               </div>
             )}
@@ -261,7 +262,7 @@ export default function EventFilters({ isOpen, onClose }: FilterProps) {
                   className="ml-2 hover:text-mira-orange"
                   aria-label="Reset price range"
                 >
-                  <X size={14} />
+                  <CustomIcon name="close" size={14} />
                 </button>
               </div>
             )}
@@ -275,7 +276,7 @@ export default function EventFilters({ isOpen, onClose }: FilterProps) {
             onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
           >
             <span className="font-bold">CATEGORIES</span>
-            <ChevronDown size={20} className={`transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
+            <CustomIcon name="arrowdown" size={20} className={`transition-transform ${isCategoryDropdownOpen ? 'rotate-180' : ''}`} />
           </div>
           
           {isCategoryDropdownOpen && (
@@ -309,7 +310,7 @@ export default function EventFilters({ isOpen, onClose }: FilterProps) {
                 }}
               >
                 <span className="font-bold">{formatMonthYear(selectedMonth, selectedYear, false)}</span>
-                <ChevronDown size={20} className={`transition-transform ${isMonthDropdownOpen ? 'rotate-180' : ''}`} />
+                <CustomIcon name="arrowdown" size={20} className={`transition-transform ${isMonthDropdownOpen ? 'rotate-180' : ''}`} />
               </div>
               
               {isMonthDropdownOpen && (
@@ -346,7 +347,7 @@ export default function EventFilters({ isOpen, onClose }: FilterProps) {
                 }}
               >
                 <span className="font-bold">{selectedYear}</span>
-                <ChevronDown size={20} className={`transition-transform ${isYearDropdownOpen ? 'rotate-180' : ''}`} />
+                <CustomIcon name="arrowdown" size={20} className={`transition-transform ${isYearDropdownOpen ? 'rotate-180' : ''}`} />
               </div>
               
               {isYearDropdownOpen && (
