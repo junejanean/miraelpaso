@@ -1,0 +1,36 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main, staging, dev ]
+    
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Build
+      run: npm run build
+      
+    # This is a placeholder for actual deployment
+    # In reality, Vercel handles this automatically when connected to GitHub
+    - name: Deploy Info
+      run: |
+        if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+          echo "Would deploy to PRODUCTION (miraelpaso.com)"
+        elif [ "${{ github.ref }}" = "refs/heads/staging" ]; then
+          echo "Would deploy to STAGING (staging.miraelpaso.com)"
+        elif [ "${{ github.ref }}" = "refs/heads/dev" ]; then
+          echo "Would deploy to DEVELOPMENT (dev.miraelpaso.com)"
+        fi
